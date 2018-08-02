@@ -107,3 +107,6 @@ venv.bak/
 # IDEA
 .idea/
 
+# Profiling
+profile.out
+
