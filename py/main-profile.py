@@ -8,7 +8,7 @@ if __name__ == '__main__':
   with open(WORD_FILE_PATH) as f:
     index = Indexer(f).index()
 
-  max_runs = 11
+  max_runs = 22
 
   queries = [
     'caligula',
