@@ -109,4 +109,5 @@ venv.bak/
 
 # Profiling
 profile.out
+profile-data.txt
 
