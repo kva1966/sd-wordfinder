@@ -94,8 +94,7 @@ class ListIndex(WordIndex):
   def __perms(lcletters: str) -> List[str]:
     # There's no inherent ordering to query letters, and we support single words
     # so, we want both permutations of the letters for faster look-up on smaller
-    # lists, but also single letter look-ups, for corner one-letter word corner
-    # cases
+    # lists, but also single letter look-ups, for one-letter word corner cases
     single_letter_keys = [ch for ch in lcletters]
 
     if len(lcletters) < ListIndex.CHUNK_LEN:
