@@ -59,8 +59,9 @@ class ListIndex(WordIndex):
     # one or more of which should match index items
     index_keys = [key for key in ListIndex.__perms(lcletters)]
 
-    # collect word lists for each letter and get a union of them all, as plenty of
-    # repetition is likely, unnecessarily increasing the no. of words to process.
+    # collect word lists for each index key and get a union of them all, as
+    # plenty of repeated words per index, unnecessarily increasing the no. of
+    # words to process.
     word_lists = [self.__idx[key] for key in index_keys]
     words = ListIndex.__union_of(word_lists)
 
@@ -71,7 +72,6 @@ class ListIndex(WordIndex):
 
     def word_acceptable(word: str):
       wdist = self.__word_distributions[word]
-
       for ch in wdist:
         ok = ch in lcletters and wdist[ch] <= lettersdist[ch]
         if not ok:
