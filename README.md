@@ -78,8 +78,7 @@ Main dataset used to play is Linux-installed `/usr/share/dict/words`, around
 Index is completely in-memory, no disk-serialised representation.
 
 Simple 2-level index: primary index is 4-char chunks, secondary is 1-char for
-words of length less than 4 chars. Sweet spot for this simple scheme is 
-probably 4-char and 1-char combo. (Implementation still puts all this into one 
+words of length less than 4 chars. (Implementation still puts all this into one 
 map however, not separate entities). The expectation is that that there's a much
 smaller no. of < 4 char words (at least this is the case in the Linux dict words
 dataset, 1080 vs. 98091). 
