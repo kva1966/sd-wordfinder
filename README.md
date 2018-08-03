@@ -5,7 +5,7 @@
 <https://gist.github.com/adamc00/898f686967dc4f097531cbfc303cfc6e>
 
 
-## Build/Run
+## Build and Run
 
 ```
 #
@@ -43,6 +43,23 @@ docker run \
 
 ```
 
+## Run A Pre-Built Image
+
+```
+#
+# Assumes your Docker login/context is hub.docker.com
+#
+
+docker pull kva1966/sd-wordfinder:latest
+
+docker run \
+    -d \
+    -p 8080:5000 \
+    --name sd-wordfinder-zing \
+    -v /usr/share/dict/words:/app/words \
+    kva1966/sd-wordfinder:latest
+
+```
 
 ## Notes
 
