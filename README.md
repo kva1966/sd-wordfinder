@@ -107,8 +107,14 @@ Error conditions on building index, please beware when using your own file:
 
 ### Container
 
-Very basic container, doesn't handle SIGINT or whatever Docker uses to shutdown
-processes. Internally, a Python process runs a Flask script to serve data.
+Very basic container; a Python process runs a Flask script wrapping the index.
+
+Process doesn't cleanly handle SIGINT or whatever Docker uses to shutdown 
+processes (need to read-up on this), and will just die without executing any 
+clean-up code.
+
+For this scenario, the index file is completely read and closed once the index 
+is built, so not a big issue.
 
 Only tested on Linux Mint Debian Edition 2 (LMDE2).
 
