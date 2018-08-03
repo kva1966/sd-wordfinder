@@ -13,7 +13,8 @@ if __name__ == '__main__':
   try:
     while True:
       q = input("query: ")
-      print("Results:\n {}\n\n".format(index.query(q)))
+      results = index.query(q, True)
+      print("Results:\n {}\n\n".format(results))
   except (EOFError, KeyboardInterrupt):
     print("\nBye.")
   except Exception:

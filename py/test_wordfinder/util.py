@@ -2,7 +2,7 @@ import unittest
 
 WORD_LIST = [
   'do', 'dog', 'go', 'god', 'good', 'gno', 'gone', 'dogg', 'doggg',
-  'Iwa', 'Rahadian', 'Arsanata', 'Jiwa', 'nata'
+  'Iwa', 'Rahadian', 'Arsanata', 'Jiwa', 'nata', 'm', 'x', 'yz', 'rx'
 ]
 
 

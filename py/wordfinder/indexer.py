@@ -34,6 +34,6 @@ class Indexer:
       index.put(word)
 
     if Indexer.DEBUG:
-      print('Indexed {} words, index key count {}'.format(i, index.key_count()))
+      print('Indexed {} words\n{}'.format(i, index))
 
     return index

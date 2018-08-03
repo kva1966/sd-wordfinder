@@ -26,7 +26,7 @@ class HashIndex:
 
   def query(self, letters: str, sort: bool = False) -> Iterable[str]:
     if not letters:
-      return set()
+      return []
 
     # normalise
     lcletters = letters.lower()
