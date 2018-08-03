@@ -1,10 +1,13 @@
 from flask import Flask, json
 from http import HTTPStatus
 from logging import INFO
+from os import environ
 
 from wordfinder.indexer import Indexer, IndexType
 
-WORD_FILE_PATH = '/usr/share/dict/words'
+is_containerised = environ.get('SD_WORDFINDER_CONTAINER')
+
+WORD_FILE_PATH = '/app/words' if is_containerised else '/usr/share/dict/words'
 
 app = Flask('wordfinder-webapp')
 
@@ -33,4 +36,4 @@ def wordfinder(query):
 
 
 if __name__ == '__main__':
-  app.run(debug=True, host='0.0.0.0')
+  app.run(debug=True, host='0.0.0.0', port=5000)
