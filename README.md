@@ -26,7 +26,7 @@ docker build -t sd-wordfinder:latest .
 #
 # Run:
 # 
-# Replace /usr/share/dict/words with a valid host path
+# Replace /usr/share/dict/words with a valid host path if necessary
 # Expecting a file with one word per line
 
 docker run \
@@ -51,6 +51,13 @@ docker run \
 #
 
 docker pull kva1966/sd-wordfinder:latest
+
+
+#
+# Run:
+# 
+# Replace /usr/share/dict/words with a valid host path if necessary
+# Expecting a file with one word per line
 
 docker run \
     -d \
