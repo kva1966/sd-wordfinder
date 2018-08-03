@@ -1,12 +1,16 @@
-from wordfinder.indexer import Indexer
+from wordfinder.indexer import Indexer, IndexType
+
 
 WORD_FILE_PATH = '/usr/share/dict/words'
 
 Indexer.DEBUG = False
 
+INDEX_TYPE = IndexType.LIST
+
 if __name__ == '__main__':
   with open(WORD_FILE_PATH) as f:
     index = Indexer(f).index()
+    print('Index built {}'.format(index))
 
   max_runs = 22
 

@@ -1,4 +1,4 @@
-from wordfinder.indexer import Indexer
+from wordfinder.indexer import Indexer, IndexType
 
 WORD_FILE_PATH = '/usr/share/dict/words'
 
@@ -6,7 +6,7 @@ Indexer.DEBUG = True
 
 if __name__ == '__main__':
   with open(WORD_FILE_PATH) as f:
-    index = Indexer(f).index()
+    index = Indexer(f, IndexType.LIST).index()
 
   print("Index built\n")
 
