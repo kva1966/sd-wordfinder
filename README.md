@@ -117,7 +117,7 @@ Process doesn't cleanly handle SIGINT or whatever Docker uses to shutdown
 processes (need to read-up on this), and will just die without executing any 
 clean-up code.
 
-For this scenario, the index file is completely read and closed once the index 
+For this scenario, the data file is completely read and closed once the index 
 is built, so not a big issue.
 
 Only tested on Linux Mint Debian Edition 2 (LMDE2).
