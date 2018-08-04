@@ -84,7 +84,11 @@ smaller no. of < 4 char words (at least this is the case in the Linux dict words
 dataset, 1080 vs. 98091). 
 
 Possibly, one could have dynamic levels falling back to a lower chunk size 
-depending on the word being indexed, but this has not been implemented.
+depending on the word being indexed, but this has not been implemented. More
+extensive Tree-esque structures and taking advantage of sorting are other
+unexplored alternatives. This implementation is very much a combination of 
+hashing and O(N) operations for reasonably low values of N depending on the 
+data distribution across keys/buckets.
 
 One-letter words may be returned in the query result if they exist in the 
 dataset; they are not excluded (though it would have likely made my life 
