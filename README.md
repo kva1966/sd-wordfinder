@@ -5,7 +5,33 @@
 <https://gist.github.com/adamc00/898f686967dc4f097531cbfc303cfc6e>
 
 
-## Build and Run
+
+## Run A Pre-Built Image
+
+```
+#
+# Assumes your Docker login/context is hub.docker.com
+#
+
+docker pull kva1966/sd-wordfinder:latest
+
+
+#
+# Run:
+# 
+# Replace /usr/share/dict/words with a valid host path if necessary
+# Expecting a file with one word per line
+
+docker run \
+    -d \
+    -p 8080:5000 \
+    --name sd-wordfinder-zing \
+    -v /usr/share/dict/words:/app/words \
+    kva1966/sd-wordfinder:latest
+
+```
+
+## Build and Run from Source
 
 ```
 #
@@ -35,38 +61,40 @@ docker run \
     --name sd-wordfinder-kapow \
     -v /usr/share/dict/words:/app/words \
     sd-wordfinder:latest
+```
 
 
-# Curl commands should now work
-# curl http://localhost:8080/wordfinder/mogalicious
-# curl http://localhost:8080/ping
+## Verify Container Up and Running
+
+```
+d ps -a | grep kva1966/sd-wordfinder
+c954a9c25b24        kva1966/sd-wordfinder:latest   "python -m wordfinde…"   4 minutes ago       Up 4 minutes        0.0.0.0:8080->5000/tcp             sd-wordfinder-zing
+
+docker logs --tail 10 <name|hash-from-ps>
+
+# Expecting messages like so:
+# ...
+#[2018-08-05 00:30:46,970] INFO in app: Index Built -> ListIndex[keyCount=35209,meanBucketLen=15.428043966031412,medianBucketLen=5,wordsIndexed=99171]
+# * Serving Flask app "wordfinder-webapp" (lazy loading)
+# * Environment: production
+#   WARNING: Do not use the development server in a production environment.
+#   Use a production WSGI server instead.
+# * Debug mode: off
+# * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+# Depending on the data size, this may take some time.
 
 ```
 
-## Run A Pre-Built Image
+
+## Execute Queries
 
 ```
-#
-# Assumes your Docker login/context is hub.docker.com
-#
+curl http://localhost:8080/ping
 
-docker pull kva1966/sd-wordfinder:latest
-
-
-#
-# Run:
-# 
-# Replace /usr/share/dict/words with a valid host path if necessary
-# Expecting a file with one word per line
-
-docker run \
-    -d \
-    -p 8080:5000 \
-    --name sd-wordfinder-zing \
-    -v /usr/share/dict/words:/app/words \
-    kva1966/sd-wordfinder:latest
+curl http://localhost:8080/wordfinder/mogalicious
 
 ```
+
 
 ## Notes
 
