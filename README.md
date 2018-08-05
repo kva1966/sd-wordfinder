@@ -68,9 +68,11 @@ docker run \
 
 ```
 docker ps -a | grep sd-wordfinder
-c954a9c25b24        kva1966/sd-wordfinder:latest   "python -m wordfinde…"   4 minutes ago       Up 4 minutes        0.0.0.0:8080->5000/tcp             sd-wordfinder-zing
 
-docker logs --tail 10 <name|hash-from-ps>
+# Output better say "Up <time>"
+# c954a9c25b24        kva1966/sd-wordfinder:latest   "python -m wordfinde…"   4 minutes ago       Up 4 minutes        0.0.0.0:8080->5000/tcp             sd-wordfinder-zing
+
+docker logs --tail 10 <(name|hash) from docker ps>
 
 # Expecting messages like so:
 # ...
