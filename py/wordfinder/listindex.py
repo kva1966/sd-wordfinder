@@ -97,6 +97,8 @@ class ListIndex(WordIndex):
     # lists, but also single letter look-ups, for one-letter word corner cases
     single_letter_keys = [ch for ch in lcletters]
 
+    # Must sync up with index storage mechanism! words less than chunk len
+    # indexed by first letter, so this is safe to do for query.
     if len(lcletters) < ListIndex.CHUNK_LEN:
       return single_letter_keys
 
