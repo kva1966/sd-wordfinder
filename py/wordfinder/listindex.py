@@ -100,6 +100,8 @@ class ListIndex(WordIndex):
     if len(lcletters) < ListIndex.CHUNK_LEN:
       return single_letter_keys
 
+    # The larger the query length, the worse this performs, of course, perms lead
+    # to very big numbers.
     chunked_keys = [''.join(p) for p in perms(lcletters, ListIndex.CHUNK_LEN)]
 
     return single_letter_keys + chunked_keys
