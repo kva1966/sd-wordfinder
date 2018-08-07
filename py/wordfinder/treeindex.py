@@ -1,69 +1,69 @@
 from typing import Iterable
 
+from collections import defaultdict
+
 from wordfinder.index import WordIndex
 
 DEBUG = False
 
 
 class Node:
-  """Binary nodes of letters in a word, each node is marked as being a word or not
-  depending on where the final letter of a word terminates. Handles sharing letters
-  across words, and repeated letters in words, e.g. 'hello' and 'help' share
-  the nodes for 'h', 'e', 'l', then split off into 'l' and 'p'."""
+  """N-ary node, each node is a letter/character key that is part of a word.
+  A node where one or more words terminates has its is_word attrib set to
+  True. Handles sharing letters across words, and repeated letters in words,
+  e.g. 'hello' and 'help' share the nodes for 'h', 'e', 'l', then split off
+  into 'l' and 'p', the nodes containing 'o' and 'p' have is_word True. Subsets
+  of words will consequently have their node's is_word be True, e.g. 'hello' and
+  'hell', 'o' and the second 'l' node will have is_word True."""
   def __init__(self):
-    self.ch = None
-    self.left = None
-    self.right = None
+    self.keys = {}
     self.is_word = False
-    self.depth = 0
 
-  def insert(self, word: str, idx: int):
+  def insert(self, word: str, idx: int = 0):
     if len(word) == idx:
       self.is_word = True
       return
 
     ch = word[idx]
 
-    if self.ch is None:
-      self.ch = ch
-      self.depth = idx
-      self.insert(word, idx + 1)
-    elif self.ch == ch:
-      if self.depth == idx:
-        self.insert(word, idx + 1) # skip to next, already inserted
-      else:
-        # same char at different index, always to left of node.
-        if self.left is None:
-          self.left = Node() # create if necessary
-        self.left.insert(word, idx)
-    elif ch < self.ch:
-      if self.left is None:
-        self.left = Node()
-      self.left.insert(word, idx)
+    if ch in self.keys:
+      self.keys[ch].insert(word, idx + 1)
     else:
-      if self.right is None:
-        self.right = Node()
-      self.right.insert(word, idx)
+      n = Node()
+      self.keys[ch] = n
+      n.insert(word, idx + 1)
 
-class TreeNode:
-  def __init__(self, word: str):
-    assert len(word) > 0
-    self.root = Node()
-    self.root.insert(word, 0)
+  def exists(self, word: str, idx: int = 0) -> bool:
+    if len(word) == idx:
+      return self.is_word
+
+    ch = word[idx]
+
+    if ch in self.keys:
+      return self.keys[ch].exists(word, idx + 1)
+
+    return False
+
+
+class NaryTree:
+  def __init__(self):
+    self.__root = Node()
 
   def insert(self, word: str):
-    assert len(word) > 0
-    self.root.insert(word, 0)
+    assert word
+    self.__root.insert(word)
+    return self
 
-  def query(self, word: str):
-    pass
+  def exists(self, word: str):
+    return False if not word else self.__root.exists(word)
+
 
 class TreeIndex(WordIndex):
   """Binary tree-based index."""
   DEBUG = False
 
   def __init__(self):
-    self.__root = None
+    self.__tree = NaryTree()
     self.__word_count = 0
 
   def put(self, word: str) -> None:
@@ -72,11 +72,7 @@ class TreeIndex(WordIndex):
 
     lcword = word.strip().lower()
 
-    if self.__root is None:
-      self.__root = TreeNode(lcword)
-    else:
-      self.__root.insert(lcword)
-
+    self.__tree.insert(lcword)
     self.__word_count += 1
 
   def query(self, letters: str, sort: bool = False) -> Iterable[str]:
@@ -88,6 +84,6 @@ class TreeIndex(WordIndex):
     ).format(self.__class__.__name__, self.__word_count)
 
     if TreeIndex.DEBUG:
-      return '{}\n'.format(metadata, str(self.__root))
+      return '{}\n'.format(metadata, str(self.__tree))
     else:
       return metadata
