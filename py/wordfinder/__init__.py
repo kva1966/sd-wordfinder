@@ -1,7 +1,6 @@
 from collections import defaultdict
 
-from typing import Dict
-
+from typing import Dict, Iterable
 
 
 def distribution_of(word: str) -> Dict[str, int]:
@@ -10,6 +9,9 @@ def distribution_of(word: str) -> Dict[str, int]:
     wdist[ch] += 1
   return wdist
 
-IndexTypes = {
 
-}
+def distribution_of2(chars: Iterable[str]) -> Dict[str, int]:
+  wdist = defaultdict(lambda: 0)
+  for ch in chars:
+    wdist[ch] += 1
+  return wdist

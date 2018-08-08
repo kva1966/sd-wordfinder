@@ -2,6 +2,7 @@ from typing import Iterable, List, Set
 
 from wordfinder.index import WordIndex
 from wordfinder import distribution_of
+from collections import defaultdict
 
 DEBUG = False
 
@@ -47,20 +48,30 @@ class Node:
     max_depth = len(letters)
     results = set()
     letter_dist = distribution_of(letters)
+    distribution_cache = {}
 
-    def try_add_result(word: str):
-      if word in results:
-        return
-      word_dist = distribution_of(word)
-      for k in word_dist:
-        if word_dist[k] > letter_dist[k]:
-          return
-      results.add(word)
+    def distribution_valid(chars: List[str]):
+      wdist = defaultdict(lambda: 0)
+      for ch in chars:
+        wdist[ch] += 1
+      #
+      # w = ''.join(chars)
+      #
+      if w in distribution_cache:
+        wdist = distribution_cache[w]
+      else:
+        wdist = distribution_of(w)
+        distribution_cache[w] = wdist
+      #
+      for k in wdist:
+        if wdist[k] > letter_dist[k]:
+          return False
+      return True
 
     def traverse_depth(node: Node, collector: List[str], curr_depth: int):
       if node.is_word:
         w = ''.join(collector)
-        try_add_result(w)
+        results.add(w)
 
       if curr_depth == max_depth:
         return
@@ -70,6 +81,9 @@ class Node:
         ch = letters[i]
         if ch in node.keys:
           collector.append(ch)
+          if not distribution_valid(collector):
+            collector.pop()
+            continue
           next_node = node.keys[ch]
           traverse_depth(next_node, collector, curr_depth + 1)
           collector.pop() # explore next branch, clear last char
