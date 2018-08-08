@@ -4,12 +4,13 @@ from typing import Iterator
 from wordfinder.hashindex import HashIndex
 from wordfinder.index import WordIndex
 from wordfinder.listindex import ListIndex
+from wordfinder.treeindex import TreeIndex
 
 
 class IndexType(Enum):
   HASH = 1
   LIST = 2
-
+  TREE = 3
 
 class Indexer:
   DEBUG = False
@@ -25,6 +26,8 @@ class Indexer:
       index = HashIndex()
     elif idx_type == IndexType.LIST:
       index = ListIndex()
+    elif idx_type == IndexType.TREE:
+      index = TreeIndex()
     else:
       raise Exception("Unknown index type {}".format(idx_type))
     i = 0

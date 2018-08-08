@@ -118,6 +118,11 @@ class ListIndexTest(BaseIndexTest, unittest.TestCase):
     return Indexer(data, IndexType.LIST).index()
 
 
+class TreeIndexTest(BaseIndexTest, unittest.TestCase):
+  def new_index(self, data):
+    return Indexer(data, IndexType.TREE).index()
+
+
 class ModuleTests(unittest.TestCase):
   def test_chunk(self):
     self.assertEqual(

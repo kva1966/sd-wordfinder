@@ -1,8 +1,7 @@
-from typing import Iterable
-
-from collections import defaultdict
+from typing import Iterable, List, Set
 
 from wordfinder.index import WordIndex
+from wordfinder import distribution_of
 
 DEBUG = False
 
@@ -44,22 +43,61 @@ class Node:
 
     return False
 
+  def query_words_containing_only(self, letters: str) -> Set[str]:
+    max_depth = len(letters)
+    results = set()
+    letter_dist = distribution_of(letters)
+
+    def try_add_result(word: str):
+      if word in results:
+        return
+      word_dist = distribution_of(word)
+      for k in word_dist:
+        if word_dist[k] > letter_dist[k]:
+          return
+      results.add(word)
+
+    def traverse_depth(node: Node, collector: List[str], curr_depth: int):
+      if node.is_word:
+        w = ''.join(collector)
+        try_add_result(w)
+
+      if curr_depth == max_depth:
+        return
+
+      # At each depth we wish to go through the available letters
+      for i in range(0, max_depth):
+        ch = letters[i]
+        if ch in node.keys:
+          collector.append(ch)
+          next_node = node.keys[ch]
+          traverse_depth(next_node, collector, curr_depth + 1)
+          collector.pop() # explore next branch, clear last char
+
+    traverse_depth(self, [], 0)
+    return results
+
 
 class NaryTree:
   def __init__(self):
     self.__root = Node()
 
-  def insert(self, word: str):
+  def insert(self, word: str) -> 'NaryTree':
     assert word
     self.__root.insert(word)
     return self
 
-  def exists(self, word: str):
+  def exists(self, word: str) -> bool:
     return False if not word else self.__root.exists(word)
+
+  def query_words_containing_only(self, letters: str) -> Set[str]:
+    if not letters:
+      return set()
+    return self.__root.query_words_containing_only(letters)
 
 
 class TreeIndex(WordIndex):
-  """Binary tree-based index."""
+  """Nary tree-based index."""
   DEBUG = False
 
   def __init__(self):
@@ -76,7 +114,12 @@ class TreeIndex(WordIndex):
     self.__word_count += 1
 
   def query(self, letters: str, sort: bool = False) -> Iterable[str]:
-    pass
+    if not letters:
+      return []
+
+    lcletters = letters.lower()  # normalise
+    words = self.__tree.query_words_containing_only(lcletters)
+    return sorted(words) if sort else words
 
   def __str__(self):
     metadata = (

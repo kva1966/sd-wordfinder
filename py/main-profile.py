@@ -6,7 +6,8 @@ WORD_FILE_PATH = '/usr/share/dict/words'
 Indexer.DEBUG = False
 
 # INDEX_TYPE = IndexType.HASH
-INDEX_TYPE = IndexType.LIST
+#INDEX_TYPE = IndexType.LIST
+INDEX_TYPE = IndexType.TREE
 
 if __name__ == '__main__':
   with open(WORD_FILE_PATH) as f:
