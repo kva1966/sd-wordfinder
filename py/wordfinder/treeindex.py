@@ -1,8 +1,6 @@
-from typing import Iterable, List, Set
+from typing import Iterable, List
 
 from wordfinder.index import WordIndex
-from wordfinder import distribution_of
-from collections import defaultdict
 
 DEBUG = False
 
@@ -44,46 +42,29 @@ class Node:
 
     return False
 
-  def query_words_containing_only(self, letters: str) -> Set[str]:
+  def query_words_containing_only(self, letters: str) -> List[str]:
     max_depth = len(letters)
-    results = set()
-    letter_dist = distribution_of(letters)
-    distribution_cache = {}
+    results = []
+    letter_list = [ch for ch in letters]
 
-    def distribution_valid(chars: List[str]):
-      wdist = defaultdict(lambda: 0)
-      for ch in chars:
-        wdist[ch] += 1
-      #
-      # w = ''.join(chars)
-      #
-      if w in distribution_cache:
-        wdist = distribution_cache[w]
-      else:
-        wdist = distribution_of(w)
-        distribution_cache[w] = wdist
-      #
-      for k in wdist:
-        if wdist[k] > letter_dist[k]:
-          return False
-      return True
+    def get_remaining(used: List[str]):
+      remain = list(letter_list)
+      for i in used:
+        remain.remove(i)
+      return remain
 
     def traverse_depth(node: Node, collector: List[str], curr_depth: int):
       if node.is_word:
         w = ''.join(collector)
-        results.add(w)
+        results.append(w)
 
       if curr_depth == max_depth:
         return
 
       # At each depth we wish to go through the available letters
-      for i in range(0, max_depth):
-        ch = letters[i]
+      for ch in get_remaining(collector):
         if ch in node.keys:
           collector.append(ch)
-          if not distribution_valid(collector):
-            collector.pop()
-            continue
           next_node = node.keys[ch]
           traverse_depth(next_node, collector, curr_depth + 1)
           collector.pop() # explore next branch, clear last char
@@ -104,9 +85,9 @@ class NaryTree:
   def exists(self, word: str) -> bool:
     return False if not word else self.__root.exists(word)
 
-  def query_words_containing_only(self, letters: str) -> Set[str]:
+  def query_words_containing_only(self, letters: str) -> Iterable[str]:
     if not letters:
-      return set()
+      return []
     return self.__root.query_words_containing_only(letters)
 
 

@@ -30,32 +30,32 @@ class NaryTreeTest(unittest.TestCase):
     for item in items:
       self.assertTrue(t.exists(item))
 
-    self.assertEqual(set(), t.query_words_containing_only(None))
-    self.assertEqual(set(), t.query_words_containing_only(''))
+    self.assertEqual(set(), set(t.query_words_containing_only(None)))
+    self.assertEqual(set(), set(t.query_words_containing_only('')))
 
     self.assertEqual(
       set(),
-      t.query_words_containing_only('h')
+      set(t.query_words_containing_only('h'))
     )
     self.assertEqual(
       {'hello', 'hell'},
-      t.query_words_containing_only('hlleo')
+      set(t.query_words_containing_only('hlleo'))
     )
     self.assertEqual(
       set(),
-      t.query_words_containing_only('hl')
+      set(t.query_words_containing_only('hl'))
     )
     self.assertEqual(
       {'bye', 'by'},
-      t.query_words_containing_only('bye')
+      set(t.query_words_containing_only('bye'))
     )
     self.assertEqual(
       {'meow'},
-      t.query_words_containing_only('meow')
+      set(t.query_words_containing_only('meow'))
     )
     self.assertEqual(
       {'c'},
-      t.query_words_containing_only('c')
+      set(t.query_words_containing_only('c'))
     )
 
   def test_query_words_containing_medium(self):
