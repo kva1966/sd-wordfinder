@@ -100,17 +100,19 @@ curl http://localhost:8080/wordfinder/mogalicious
 
 ## Notes
 
+Main dataset used to play is Linux-installed `/usr/share/dict/words`, around
+99k words on my machine.
+
 ### Indexing: Update 2018-08-09
 
 Implement n-ary tree based indexing. Way faster than old hash and chunking
 combo; more importantly, degrades much more gracefully with query/letter
 count. Serves me right for taking the name of permutations in vain. :-|
 
+Index is completely in-memory, no disk-serialised representation.
+
 
 ### Indexing: Old
-
-Main dataset used to play is Linux-installed `/usr/share/dict/words`, around
-99k words on my machine.
 
 Index is completely in-memory, no disk-serialised representation.
 
