@@ -100,14 +100,14 @@ curl http://localhost:8080/wordfinder/mogalicious
 
 ## Notes
 
-### Data and Indexing: Update 2018-08-09
+### Indexing: Update 2018-08-09
 
 Implement n-ary tree based indexing. Way faster than old hash and chunking
 combo; more importantly, degrades much more gracefully with query/letter
 count. Serves me right for taking the name of permutations in vain. :-|
 
 
-### Data and Indexing: Old
+### Indexing: Old
 
 Main dataset used to play is Linux-installed `/usr/share/dict/words`, around
 99k words on my machine.
@@ -126,6 +126,8 @@ extensive Tree-esque structures and taking advantage of sorting are other
 unexplored alternatives. This implementation is very much a combination of 
 hashing and O(N) operations for reasonably low values of N depending on the 
 data distribution across keys/buckets.
+
+### Inputs and Outputs
 
 One-letter words may be returned in the query result if they exist in the 
 dataset; they are not excluded (though it would have likely made my life 
