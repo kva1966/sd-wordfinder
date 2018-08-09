@@ -77,7 +77,7 @@ docker logs --tail 10 <(name|hash) from docker ps>
 # Expecting messages like so:
 # ...
 # [2018-08-09 02:29:02,725] INFO in app: Index Built -> TreeIndex[wordsIndexed=99171]
-* Serving Flask app "wordfinder-webapp" (lazy loading)
+# * Serving Flask app "wordfinder-webapp" (lazy loading)
 # * Environment: production
 #   WARNING: Do not use the development server in a production environment.
 #   Use a production WSGI server instead.
