@@ -1,6 +1,7 @@
 from typing import Iterable, List
 
 from wordfinder.index import WordIndex
+from wordfinder import distribution_of
 
 DEBUG = False
 
@@ -45,12 +46,15 @@ class Node:
   def query_words_containing_only(self, letters: str) -> List[str]:
     max_depth = len(letters)
     results = []
-    letter_list = [ch for ch in letters]
+    letter_dist = distribution_of(letters)
+    unique_letters = [letter for letter in letter_dist]
 
     def get_remaining(used: List[str]):
-      remain = list(letter_list)
-      for i in used:
-        remain.remove(i)
+      remain = []
+      for ch in unique_letters:
+        ch_count = used.count(ch)
+        if letter_dist[ch] > ch_count:
+          remain.append(ch)
       return remain
 
     def traverse_depth(node: Node, collector: List[str], curr_depth: int):
