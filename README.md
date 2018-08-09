@@ -76,8 +76,8 @@ docker logs --tail 10 <(name|hash) from docker ps>
 
 # Expecting messages like so:
 # ...
-#[2018-08-05 00:30:46,970] INFO in app: Index Built -> ListIndex[keyCount=35209,meanBucketLen=15.428043966031412,medianBucketLen=5,wordsIndexed=99171]
-# * Serving Flask app "wordfinder-webapp" (lazy loading)
+# [2018-08-09 02:29:02,725] INFO in app: Index Built -> TreeIndex[wordsIndexed=99171]
+* Serving Flask app "wordfinder-webapp" (lazy loading)
 # * Environment: production
 #   WARNING: Do not use the development server in a production environment.
 #   Use a production WSGI server instead.
@@ -100,7 +100,14 @@ curl http://localhost:8080/wordfinder/mogalicious
 
 ## Notes
 
-### Data and Indexing
+### Data and Indexing: Update 2018-08-09
+
+Implement n-ary tree based indexing. Way faster than old hash and chunking
+combo; more importantly, degrades much more gracefully with query/letter
+count. Serves me right for taking the name of permutations in vain. :-|
+
+
+### Data and Indexing: Old
 
 Main dataset used to play is Linux-installed `/usr/share/dict/words`, around
 99k words on my machine.

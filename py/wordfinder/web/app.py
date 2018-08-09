@@ -14,7 +14,7 @@ app = Flask('wordfinder-webapp')
 app.logger.setLevel(INFO)
 
 with open(WORD_FILE_PATH) as f:
-  index = Indexer(f, IndexType.LIST).index()
+  index = Indexer(f, IndexType.TREE).index()
   app.logger.info('Index Built -> %s', index)
 
 
