@@ -47,11 +47,10 @@ class Node:
     max_depth = len(letters)
     results = []
     letter_dist = distribution_of(letters)
-    unique_letters = [letter for letter in letter_dist]
 
     def get_remaining(used: List[str]):
       remain = []
-      for ch in unique_letters:
+      for ch in letter_dist:
         ch_count = used.count(ch)
         if letter_dist[ch] > ch_count:
           remain.append(ch)
