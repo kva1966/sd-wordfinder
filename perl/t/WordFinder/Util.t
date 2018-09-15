@@ -5,9 +5,8 @@ use Test::More;
 use WordFinder::Util;
 
 #
-# Tests for distribution_of
+# Tests for distribution_of()
 #
-
 
 is_deeply(\WordFinder::Util::distribution_of('hello'), \{
   'h' => 1,
@@ -23,6 +22,11 @@ is_deeply(\WordFinder::Util::distribution_of('meheelloom'), \{
   'o' => 2,
   'm' => 2
 }, "letter distribution of 'meheelloom'");
+
+
+#
+# Tests for trim()
+#
 
 test_trim(undef, undef);
 test_trim('', '');
