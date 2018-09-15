@@ -1,3 +1,4 @@
 #!/bin/bash
 
-prove -lrv
+prove -lrv -Ilocal/lib/perl5
+
